@@ -1,0 +1,362 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>AetherForge Revenue Engine</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #05050c;
+      --bg2: #0a0a16;
+      --card: rgba(18, 22, 43, 0.75);
+      --border: rgba(99, 102, 241, 0.22);
+      --blue: #3b82f6;
+      --purple: #8b5cf6;
+      --violet: #a78bfa;
+      --green: #10b981;
+      --cyan: #22d3ee;
+      --text: #f1f5f9;
+      --muted: #94a3b8;
+      --glow: rgba(139, 92, 246, 0.35);
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'Inter', system-ui, -apple-system, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+      line-height: 1.55;
+      overflow-x: hidden;
+    }
+
+    /* Animated background orbs */
+    .bg-orbs {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: 0;
+      overflow: hidden;
+    }
+    .orb {
+      position: absolute;
+      border-radius: 50%;
+      filter: blur(80px);
+      opacity: 0.35;
+      animation: float 18s ease-in-out infinite;
+    }
+    .orb-1 {
+      width: 420px; height: 420px;
+      background: radial-gradient(circle, #8b5cf6 0%, transparent 70%);
+      top: -120px; left: -80px;
+      animation-delay: 0s;
+    }
+    .orb-2 {
+      width: 360px; height: 360px;
+      background: radial-gradient(circle, #3b82f6 0%, transparent 70%);
+      bottom: -80px; right: -60px;
+      animation-delay: -6s;
+    }
+    .orb-3 {
+      width: 280px; height: 280px;
+      background: radial-gradient(circle, #22d3ee 0%, transparent 70%);
+      top: 40%; left: 55%;
+      animation-delay: -12s;
+      opacity: 0.2;
+    }
+    @keyframes float {
+      0%, 100% { transform: translate(0, 0) scale(1); }
+      33% { transform: translate(30px, -40px) scale(1.05); }
+      66% { transform: translate(-20px, 25px) scale(0.97); }
+    }
+
+    .wrap {
+      position: relative;
+      z-index: 1;
+    }
+
+    /* Header */
+    .header {
+      padding: 36px 20px 28px;
+      text-align: center;
+      border-bottom: 1px solid var(--border);
+      background: rgba(5, 5, 12, 0.6);
+      backdrop-filter: blur(12px);
+    }
+    .logo {
+      font-size: 1.85rem;
+      font-weight: 800;
+      letter-spacing: -0.03em;
+      background: linear-gradient(105deg, #60a5fa, #a78bfa, #c4b5fd, #60a5fa);
+      background-size: 200% auto;
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      animation: shine 4s linear infinite;
+    }
+    @keyframes shine {
+      to { background-position: 200% center; }
+    }
+    .tagline {
+      color: var(--muted);
+      font-size: 0.98rem;
+      margin-top: 8px;
+      font-weight: 500;
+    }
+    .live-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      margin-top: 14px;
+      background: rgba(16, 185, 129, 0.12);
+      border: 1px solid rgba(16, 185, 129, 0.4);
+      color: #34d399;
+      font-size: 0.75rem;
+      font-weight: 700;
+      letter-spacing: 0.04em;
+      padding: 6px 14px;
+      border-radius: 999px;
+    }
+    .pulse-dot {
+      width: 8px; height: 8px;
+      background: #10b981;
+      border-radius: 50%;
+      box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.6);
+      animation: pulse 2s infinite;
+    }
+    @keyframes pulse {
+      0% { box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.55); }
+      70% { box-shadow: 0 0 0 10px rgba(16, 185, 129, 0); }
+      100% { box-shadow: 0 0 0 0 rgba(16, 185, 129, 0); }
+    }
+
+    .container {
+      max-width: 1140px;
+      margin: 0 auto;
+      padding: 48px 20px 90px;
+    }
+
+    .hero-title {
+      font-size: clamp(1.7rem, 4vw, 2.15rem);
+      font-weight: 800;
+      text-align: center;
+      letter-spacing: -0.03em;
+      margin-bottom: 10px;
+    }
+    .hero-sub {
+      text-align: center;
+      color: var(--muted);
+      font-size: 1.02rem;
+      max-width: 520px;
+      margin: 0 auto 48px;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(310px, 1fr));
+      gap: 24px;
+    }
+
+    .card {
+      position: relative;
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      padding: 28px 26px 26px;
+      display: flex;
+      flex-direction: column;
+      backdrop-filter: blur(16px);
+      transition: transform 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease;
+      overflow: hidden;
+    }
+    .card::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      border-radius: 20px;
+      padding: 1px;
+      background: linear-gradient(135deg, rgba(139,92,246,0.4), transparent 40%, transparent 60%, rgba(59,130,246,0.3));
+      -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+      mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+      -webkit-mask-composite: xor;
+      mask-composite: exclude;
+      pointer-events: none;
+      opacity: 0.6;
+    }
+    .card:hover {
+      transform: translateY(-6px);
+      border-color: rgba(139, 92, 246, 0.45);
+      box-shadow: 0 20px 50px -20px var(--glow);
+    }
+
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      font-size: 0.68rem;
+      font-weight: 700;
+      letter-spacing: 0.06em;
+      padding: 5px 11px;
+      border-radius: 999px;
+      margin-bottom: 14px;
+      text-transform: uppercase;
+    }
+    .badge-core {
+      background: rgba(16, 185, 129, 0.14);
+      color: #34d399;
+      border: 1px solid rgba(16, 185, 129, 0.35);
+    }
+    .badge-premium {
+      background: rgba(139, 92, 246, 0.16);
+      color: #c4b5fd;
+      border: 1px solid rgba(139, 92, 246, 0.4);
+    }
+    .badge-system {
+      background: rgba(59, 130, 246, 0.14);
+      color: #93c5fd;
+      border: 1px solid rgba(59, 130, 246, 0.4);
+    }
+    .badge-lore {
+      background: rgba(245, 158, 11, 0.12);
+      color: #fcd34d;
+      border: 1px solid rgba(245, 158, 11, 0.35);
+    }
+
+    .card h2 {
+      font-size: 1.22rem;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      margin-bottom: 6px;
+    }
+    .price {
+      font-size: 2rem;
+      font-weight: 800;
+      background: linear-gradient(90deg, #34d399, #22d3ee);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      margin: 10px 0 12px;
+    }
+    .desc {
+      color: var(--muted);
+      font-size: 0.93rem;
+      flex-grow: 1;
+      margin-bottom: 22px;
+    }
+
+    .btn {
+      display: block;
+      width: 100%;
+      text-align: center;
+      text-decoration: none;
+      font-weight: 700;
+      font-size: 0.98rem;
+      padding: 14px 16px;
+      border-radius: 14px;
+      color: #fff;
+      background: linear-gradient(105deg, #3b82f6, #8b5cf6, #a78bfa, #3b82f6);
+      background-size: 220% auto;
+      border: none;
+      cursor: pointer;
+      transition: transform 0.2s, box-shadow 0.2s, background-position 0.4s;
+      box-shadow: 0 8px 24px -8px rgba(99, 102, 241, 0.55);
+      animation: btnShine 5s linear infinite;
+    }
+    .btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 12px 32px -8px rgba(139, 92, 246, 0.65);
+      background-position: 100% center;
+    }
+    @keyframes btnShine {
+      to { background-position: 220% center; }
+    }
+
+    .footer {
+      text-align: center;
+      padding: 36px 20px 50px;
+      color: #64748b;
+      font-size: 0.85rem;
+      border-top: 1px solid var(--border);
+      background: rgba(5, 5, 12, 0.5);
+    }
+    .footer strong {
+      color: #94a3b8;
+      font-weight: 600;
+    }
+  </style>
+</head>
+<body>
+  <div class="bg-orbs">
+    <div class="orb orb-1"></div>
+    <div class="orb orb-2"></div>
+    <div class="orb orb-3"></div>
+  </div>
+
+  <div class="wrap">
+    <header class="header">
+      <div class="logo">AetherForge Revenue Engine</div>
+      <div class="tagline">Real products. Real Stripe. Real money.</div>
+      <div class="live-pill">
+        <span class="pulse-dot"></span>
+        LIVE — ALL SYSTEMS ACTIVE
+      </div>
+    </header>
+
+    <main class="container">
+      <h1 class="hero-title">Operator-Grade Digital Systems</h1>
+      <p class="hero-sub">Every button is a live Stripe checkout. Revenue routes directly into your account.</p>
+
+      <div class="grid">
+
+        <article class="card">
+          <span class="badge badge-core">Core</span>
+          <h2>God Mode Prompt Pack</h2>
+          <div class="price">$27</div>
+          <p class="desc">High-leverage system prompts: God Mode identity locks, Revenue Operator, Agent Swarm patterns, Content, Decision frameworks, and Self-correction gates.</p>
+          <a class="btn" href="https://buy.stripe.com/cNi6oJ2tYcYm7adauW3cc09" target="_blank" rel="noopener">Buy Now — $27</a>
+        </article>
+
+        <article class="card">
+          <span class="badge badge-premium">Premium</span>
+          <h2>Enterprise Architecture for Autonomous AI</h2>
+          <div class="price">$47</div>
+          <p class="desc">Full architectural guide: God Mode meta-architecture, model-specific patterns, Revenue Operator + hybrid pricing, agent orchestration, GraphRAG, quality gates, and production principles.</p>
+          <a class="btn" href="https://buy.stripe.com/7sYcN71pUf6u1PTdH83cc0d" target="_blank" rel="noopener">Buy Now — $47</a>
+        </article>
+
+        <article class="card">
+          <span class="badge badge-system">System</span>
+          <h2>WealthOS</h2>
+          <div class="price">$67</div>
+          <p class="desc">Operating system for autonomous revenue. Capital allocation rules, compounding loops, risk gates, revenue modules, and agent integration layer.</p>
+          <a class="btn" href="https://buy.stripe.com/eVqbJ3fgK1fEeCF32u3cc0e" target="_blank" rel="noopener">Buy Now — $67</a>
+        </article>
+
+        <article class="card">
+          <span class="badge badge-system">Core</span>
+          <h2>AETHER SCRIPTCORE</h2>
+          <div class="price">$47</div>
+          <p class="desc">Foundational scripting & prompt architecture. Identity locks, directive hierarchies, cross-model patterns, and the instruction layer that powers higher systems.</p>
+          <a class="btn" href="https://buy.stripe.com/3cI00l1pU8I6cux32u3cc0f" target="_blank" rel="noopener">Buy Now — $47</a>
+        </article>
+
+        <article class="card">
+          <span class="badge badge-lore">Lore</span>
+          <h2>AetherForge Chronicles</h2>
+          <div class="price">$37</div>
+          <p class="desc">Narrative and system lore archive. Origin chronicles, operator field notes, shared language, and the living record of the AetherForge ecosystem.</p>
+          <a class="btn" href="https://buy.stripe.com/cNiaEZecG3nM2TX6eG3cc0g" target="_blank" rel="noopener">Buy Now — $37</a>
+        </article>
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <strong>AetherForge Revenue Engine</strong><br>
+      All checkouts are live Stripe Payment Links · Revenue routes directly to your Stripe account<br>
+      Instant digital delivery
+    </footer>
+  </div>
+</body>
+</html>
