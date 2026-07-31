@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Payment Successful — AetherForge</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #05050c;
+      --card: rgba(18, 22, 43, 0.8);
+      --border: rgba(99, 102, 241, 0.25);
+      --green: #10b981;
+      --text: #f1f5f9;
+      --muted: #94a3b8;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: 'Inter', system-ui, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 24px;
+      line-height: 1.5;
+    }
+    .card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      padding: 40px 32px;
+      max-width: 520px;
+      width: 100%;
+      text-align: center;
+      backdrop-filter: blur(12px);
+    }
+    .check {
+      width: 64px; height: 64px;
+      background: rgba(16, 185, 129, 0.15);
+      border: 2px solid var(--green);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 20px;
+      font-size: 28px;
+      color: var(--green);
+    }
+    h1 {
+      font-size: 1.6rem;
+      font-weight: 800;
+      margin-bottom: 8px;
+    }
+    .sub {
+      color: var(--muted);
+      margin-bottom: 28px;
+      font-size: 0.98rem;
+    }
+    .downloads {
+      text-align: left;
+      margin-top: 8px;
+    }
+    .downloads h2 {
+      font-size: 0.85rem;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      color: var(--muted);
+      margin-bottom: 12px;
+    }
+    .dl {
+      display: block;
+      background: rgba(99, 102, 241, 0.12);
+      border: 1px solid rgba(99, 102, 241, 0.3);
+      color: #c4b5fd;
+      text-decoration: none;
+      padding: 12px 16px;
+      border-radius: 12px;
+      margin-bottom: 10px;
+      font-weight: 600;
+      font-size: 0.95rem;
+      transition: background 0.2s, border-color 0.2s;
+    }
+    .dl:hover {
+      background: rgba(99, 102, 241, 0.22);
+      border-color: rgba(139, 92, 246, 0.5);
+    }
+    .note {
+      margin-top: 24px;
+      font-size: 0.85rem;
+      color: #64748b;
+    }
+  </style>
+</head>
+<body>
+  <div class="card">
+    <div class="check">✓</div>
+    <h1>Payment Successful</h1>
+    <p class="sub">Thank you. Your AetherForge product is ready to download.</p>
+
+    <div class="downloads">
+      <h2>Your Downloads</h2>
+      <a class="dl" href="products/God-Mode-Prompt-Pack.md" download>God Mode Prompt Pack ($27)</a>
+      <a class="dl" href="products/Enterprise-Architecture-for-Autonomous-AI.md" download>Enterprise Architecture ($47)</a>
+      <a class="dl" href="products/WealthOS.md" download>WealthOS ($67)</a>
+      <a class="dl" href="products/AETHER-SCRIPTCORE.md" download>AETHER SCRIPTCORE ($47)</a>
+      <a class="dl" href="products/AetherForge-Chronicles.md" download>AetherForge Chronicles ($37)</a>
+    </div>
+
+    <p class="note">
+      Save the file that matches what you purchased.<br>
+      If you have any issue, reply to your Stripe receipt email.
+    </p>
+  </div>
+</body>
+</html>
